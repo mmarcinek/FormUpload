@@ -1,0 +1,71 @@
+{
+    "job_id": "n2et0q8l61",
+    "project": {
+      "address_1": "3803 Main St.",
+      "address_2": "Apt #1822",
+      "city": "Oakwood",
+      "state": "GA",
+      "zipcode": 30566
+    },
+    "date_collected": "10/17/2017 10:01",
+    "collected_by": "Michael Marcinek",
+    "table": [
+      {
+        "sample_id": "de1234567edt",
+        "location": "Closet/Bathroom",
+        "test_type": "",
+        "volume": "15 L/min",
+        "area": "5 min",
+        "TAT": "string?",
+        "RH": 53.8,
+        "temp": 76.1,
+        "notes": "text"
+      },
+      {
+        "sample_id": "de1234567edt",
+        "location": "Outside",
+        "test_type": " ",
+        "volume": "15 L/min",
+        "area": "5 min",
+        "TAT": " ",
+        "RH": 37.6,
+        "temp": 70.7,
+        "notes": "text"
+      }
+    ],
+    "received_by": "DMartinez",
+    "date_received": "10/17/2017 10:01",
+    "lab": 16130
+  }
+  
+  
+  /* Data Structure 
+  structure = {
+    job_id: alphaNum,
+    project: {
+      address_1: 'String',
+      address_2: 'String'
+      city: 'String',
+      state: 'String',
+      zipcode: num
+    },
+    date_collected: date + time(timestamp),
+    collected_by: 'User Name',
+    table: 
+    [
+      {
+      sample_id: 'de1234567edt',
+      location: 'string',
+      test_type: ' string',
+      volume: num + 'volume measurement',
+      area: num + 'area measurement',
+      TAT: 'string?',
+      RH: float,
+      temp: float,
+      notes: 'text'
+    }
+  ],
+  received_by: 'String',
+  date_received: moment(Date.now()).format('DD-MM_YYYY HH:MM'),
+  lab: num
+  */
