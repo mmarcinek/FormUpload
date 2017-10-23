@@ -13,7 +13,11 @@
     "react-native-material-design": "^0.3.7",
     "react-native-table-component": "^1.1.1",
     "react-native-vector-icons": "^4.4.2",
-    "realm": "^2.0.1"
+    "react-redux": "^5.0.6",
+    "realm": "^2.0.1",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-jest": "21.2.0",
