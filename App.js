@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, combineReduxers, compose } from 'redux';
+import { thunkMiddleware } from 'redux-thunk';
+import { createLoggger } from 'redux-logger';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
