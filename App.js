@@ -3,9 +3,24 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, combineReduxers, compose } from 'redux';
 import { thunkMiddleware } from 'redux-thunk';
 import { createLoggger } from 'redux-logger';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import reducer from './app/reducers'; 
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
+const loggerMiddleware = createLoggger({ predicate: (getState, action ) => __DEV__ });
+
+function configureStore(initialState) {
+  const enhancer = compose(
+    applyMiddleware(
+      thunkMiddleware,
+      loggerMiddleware
+    ),
+  );
+  return create(reducer, initialState, enhancer);
+}
+
+const store = configureStore({});
+
+import { Platform, StyleSheet, Text, View } from 'react-native';
 
 let mock = require('./mock.json');
 
