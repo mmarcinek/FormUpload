@@ -15,7 +15,7 @@ function configureStore(initialState) {
       loggerMiddleware
     ),
   );
-  return create(reducer, initialState, enhancer);
+  return createStore(reducer, initialState, enhancer);
 }
 
 const store = configureStore({});
@@ -27,7 +27,7 @@ let mock = require('./mock.json');
 const tableHead = Object.keys(mock.table[0]);
 const tableData = [];
 
-export default class App extends Component{
+class FormUpload extends Component{
   render() {
     return (
       <View style={styles.container}>
@@ -39,6 +39,14 @@ export default class App extends Component{
     );
   }
 }
+
+const App = () => (
+  <Provider store={store}>
+    <AppContainer />
+  </Provider>
+)
+
+AppRegistry.registerComponent('FormUpload', () => App); 
 
 const styles = StyleSheet.create({
   table: { 
