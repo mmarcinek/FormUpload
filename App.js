@@ -5,7 +5,6 @@ import { createStore, applyMiddleware, combineReducers, compose} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import reducer from './app/reducers'
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
 const loggerMiddleware = createLogger({ predicate: (getState, action ) => __DEV__ });
 
