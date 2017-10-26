@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import JobTable from './JobTable';
 
+
 class AppWrapper extends Component {ß
   render(){
     return <JobTable {...this.props}/>

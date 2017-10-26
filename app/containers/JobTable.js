@@ -19,17 +19,6 @@ const tableHead = Object.keys(mock.table[0]);
 const tableData = [];
 const project = mock.project;
 
-// "job_id": "n2et0q8l61",
-// "project": {
-//   "address_1": "3803 Main St.",
-//   "address_2": "Apt #1822",
-//   "city": "Oakwood",
-//   "state": "GA",
-//   "zipcode": 30566
-// },
-// "date_collected": "10/17/2017 10:01",
-// "collected_by": "Michael Marcinek",
-
 class JobTable extends Component {
   render() {
     return (
