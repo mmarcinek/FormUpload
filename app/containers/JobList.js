@@ -14,8 +14,6 @@ const {
   ListView
 } = ReactNative
 
-const jobsResults = realm.objects('Job');
-
 class JobList extends Component {
   constructor() {
     super();
@@ -23,23 +21,42 @@ class JobList extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(['row 1', 'row 2']),
     };  
+
+    this.jobResults = realm.objects('Job').sorted('createdAt');
+
+    if (this.jobResults.length < 1) {
+      realm.write(() => {
+        realm.create('Job', {
+          job_id: 'ed43214', 
+          uploaded: false, 
+          company: 'Test Co.', 
+          address_1: '123 test highway',
+          address_2: 'Ste 123',
+          city: 'Atlanta',
+          state: 'GA',
+          zipcode: 30307,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+      })
+    }
+    
+    this.jobResults.addListener((name, changes) => {
+      console.log("changed: " + JSON.stringify(changes));
+    });
+
+    this.state = {};
   }
 
   addJob() {
-    console.log(jobsResults)
+    console.log(this.jobResults)
   }
 
   render(){
     return (
-      // <View>
-      {/* <ListView
-      dataSource={this.state.dataSource}
-      renderRow={(rowData) => <Text>{rowData}</Text>}
-      />  */}
-      <TouchableHighlight onPress={this.addAJob}>
+      <TouchableHighlight onPress={this.addJob} style={{marginTop:20, marginLeft: 20, height: 30}}>
         <Text>Add a Job</Text>
       </TouchableHighlight>
-      // </View>
     )
   }  
 }
