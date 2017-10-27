@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
 import JobTable from './JobTable';
-
+import JobList from './JobList';
 
 class AppWrapper extends Component {ß
   render(){
-    return <JobTable {...this.props}/>
+    return <JobList {...this.props}/>
   }
 }
 

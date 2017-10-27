@@ -14,8 +14,16 @@ export function setJobsItems({jobItems}) {
   }
 }
 
-export function count(){
+export const createJob = (job) => {
+  store.createJob(job)
   return {
-    type: types.COUNTER,
+    type: type.JOB_ADDED
+  }
+}
+
+export const deleteJob = (job_id) => {
+  store.deleteJob(job_id)
+  return {
+    type: type.JOB_DELETED
   }
 }
