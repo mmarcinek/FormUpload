@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import ReactNative from 'react-native';
 import { ActionCreators } from '../actions';
 import realm from '../store/realm';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 
+import { Form,
+  Separator,InputField, LinkField,
+  SwitchField, PickerField,DatePickerField,TimePickerField
+} from 'react-native-form-generator';
 
 const {
   ScrollView,
@@ -54,16 +57,34 @@ class JobList extends Component {
 
     this.state = {
       modalVisible: false,
+      formData: {}
     }
+  }
 
+  handleFormChange(formData){
+    formData = {
+      job_id:"",
+      company:"",
+      address_1:'',
+      address_2:'',
+      city:'',
+      state:'',
+      zipcode: ''
+    }
+    
+    this.setState({formData:formData})
+    this.props.onFormChange && this.props.onFormChange(formData);
+  }
+  handleFormFocus(e, component){
+    //console.log(e, component);
   }
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
   }
 
-  jobSelect(){
-  
+  saveJob(params){
+    console.log(params)
   }
 
   render(){ 
@@ -87,19 +108,55 @@ class JobList extends Component {
         animationType="slide"
         transparent={false}
         visible={this.state.modalVisible}
-        onRequestClose={() => {alert("Modal has been closed.")}}
+        onRequestClose={() => {this.setModalVisible(!this.state.modalVisible)}}
         >
         <View style={{marginTop: 22}}>
-          <View>
-            <Text>Hello World!</Text>
+        <Form
+          ref='jobForm'
+          onFocus={this.handleFormFocus.bind(this)}
+          onChange={this.handleFormChange.bind(this)}
+          label="Job Information">
+          <InputField 
+              ref='job_id' 
+              label='Job Id' 
+              placeholder='Job ID'/>
+          
+          <InputField 
+              ref='company' 
+              label='Company'
+              placeholder='Company'/>
+      
+          <InputField 
+              ref='address_1' 
+              label='Address 1' 
+              placeholder='Address 1'/>
+          
+          <InputField 
+              ref='address_2' 
+              label='Address 2'
+              placeholder='address 2'/>
+          
+          <InputField 
+              ref='city' 
+              label='City' 
+              placeholder='City'/>
+          
+          <InputField 
+              ref='state' 
+              label='State'
+              placeholder='State'/>
 
-            <TouchableHighlight onPress={() => {
-              this.setModalVisible(!this.state.modalVisible)
-            }}>
-              <Text>Hide Modal</Text>
-            </TouchableHighlight>
+          <InputField 
+              ref='zipcode' 
+              label='Zipcode'
+              placeholder='Zipcode'/>
 
-          </View>
+          </Form>
+          <Button
+            raised
+            icon={{name: 'cached'}}
+            title='Save Job' 
+            onPress={() => { this.saveJob()} } />
         </View>
       </Modal>  
       </View>
