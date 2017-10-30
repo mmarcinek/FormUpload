@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../actions';
-import JobTable from './JobTable';
-import JobList from './JobList';
+import { Nav } from '../config/router';
 
 class AppWrapper extends Component {ß
   render(){
-    return <JobList {...this.props}/>
+    return <Nav/>
   }
 }
 

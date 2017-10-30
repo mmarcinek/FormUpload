@@ -45,7 +45,7 @@ class JobList extends Component {
     this.jobList = this.jobResults.map((job) => {
       return(
         <View onPress={this.jobSelect} key={job.job_id} style={{flexDirection: 'row', paddingTop: 20, paddingLeft:20, borderBottomColor: '#d3d3d3', borderBottomWidth: 1}}>
-          <TouchableHighlight style={{width: 75, height: 40}} onPress={this.jobSelect}>
+          <TouchableHighlight style={{width: 75, height: 40}} onPress={() => { this.jobSelect(job) }}>
             <Text>Select</Text>
           </TouchableHighlight>
           <Text style={{width: 150, height: 40}}>{job.job_id}</Text>
@@ -70,6 +70,11 @@ class JobList extends Component {
 
   setModalVisible(visible) {
     this.setState({modalVisible: visible});
+  }
+
+  jobSelect(job){
+    console.log(job)
+    this.props.navigation.navigate('JobTable', job)
   }
 
   saveJob(params){

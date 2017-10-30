@@ -13,7 +13,9 @@ const {
   StyleSheet
 } = ReactNative;
 
+
 let mock = require('../../mock.json');
+
 
 const tableHead = Object.keys(mock.table[0]);
 const tableData = [];
@@ -21,6 +23,16 @@ const project = mock.project;
 
 class JobTable extends Component {
   render() {
+    const job = {
+      job_id: this.props.navigation.state.params.job_id,
+      company: this.props.navigation.state.params.company,
+      address_1: this.props.navigation.state.params.address_1,
+      address_2: this.props.navigation.state.params.address_2,
+      city: this.props.navigation.state.params.city,
+      state: this.props.navigation.state.params.state,
+      zipcode: this.props.navigation.state.params.zipcode
+    }
+    
     return (
       <View style={styles.container}>
         <View style={styles.flexContainer}>
@@ -32,15 +44,15 @@ class JobTable extends Component {
             <Text>Fax (770) 270-0853</Text>
           </View>
           <View style={styles.col2}>        
-            <Text>{project.company}</Text>
-            <Text>{project.address_1}</Text>
-            <Text>{project.address_2}</Text>
-            <Text>{project.city}</Text>
-            <Text>{project.state}</Text>
-            <Text>{project.zipcode}</Text>
+            <Text>{job.company}</Text>
+            <Text>{job.address_1}</Text>
+            <Text>{job.address_2}</Text>
+            <Text>{job.city}</Text>
+            <Text>{job.state}</Text>
+            <Text>{job.zipcode}</Text>
           </View>
           <View style={styles.col3}>
-            <Text style={{ marginBottom: 20 }}>{mock.job_id}</Text>
+            <Text style={{ marginBottom: 20 }}>{job.job_id}</Text>
             <Text>Date Collected:{mock.date_collected}</Text>
             <Text>Collected By: {mock.collected_by}</Text>
           </View>
