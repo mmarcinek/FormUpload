@@ -99,9 +99,10 @@ class JobList extends Component {
       })
     });
 
-    this.state.formData = {}
-    this.setState(this.state)
+    this.setState({formData: {}})
     this.setModalVisible(!this.state.modalVisible)
+    this.forceUpdate();
+    
   }
 
   render(){ 
