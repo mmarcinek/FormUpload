@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactNative from 'react-native';
+import { Button } from 'react-native-elements';
 import realm from '../store/realm';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import Orientation from 'react-native-orientation';
 
 
@@ -15,36 +15,50 @@ const {
   StyleSheet
 } = ReactNative;
 
-
-let mock = require('../../mock.json');
-
-
-const tableHead = Object.keys(mock.table[0]);
-const tableData = [];
-
 class JobTable extends Component {
   constructor(props){
     super(props)
 
-    let data = Array.from(realm.objects('JobTable'))
-    this.jobHeader = Object.keys(data[0])
-    this.jobDetails = [];
+    let jobDetails = Array.from(realm.objects('JobTable'))
+    console.log(jobDetails)
+    this.jobHeader = Object.keys(jobDetails[0])
 
-    if (this.jobDetails.length == 1) {
-      realm.write(() => {
-        realm.create('JobTable', {
-          table_id: this.props.navigation.state.params.job_id,
-          sample_id: 'BD1234435',
-          location: 'Bathroom',
-          test_type: 'Test',
-          volume: 15,
-          area: 15,
-          TAT: '?',
-          RH: 77.5,
-          temp: 22.3,
-          notes: 'Some Notes'
-        })
-      })
+    // if (this.jobDetails.length < 1) {
+    //   realm.write(() => {
+    //     realm.create('JobTable', {
+    //       table_id: this.props.navigation.state.params.job_id,
+    //       sample_id: 'BD1234435',
+    //       location: 'Bathroom',
+    //       test_type: 'Test',
+    //       volume: 15,
+    //       area: 15,
+    //       TAT: '?',
+    //       RH: 77.5,
+    //       temp: 22.3,
+    //       notes: 'Some Notes'
+    //     })
+    //   })
+    // }
+
+    this.jobDetailsList = this.jobDetails.map((detail) =>{
+      return (
+        <View style={{flexDirection: 'row', paddingTop: 20, paddingLeft:20, borderBottomColor: '#d3d3d3', borderBottomWidth: 1}}>
+          <Text style={{width: 75, height: 40}}>{detail.sample_id}</Text>
+          <Text style={{width: 100, height: 40}}>{detail.location}</Text>
+          <Text style={{width: 75, height: 40}}>{detail.test_type}</Text>
+          <Text style={{width: 50, height: 40}}>{detail.volume}</Text>
+          <Text style={{width: 50, height: 40}}>{detail.area}</Text>
+          <Text style={{width: 50, height: 40}}>{detail.TAT}</Text>
+          <Text style={{width: 50, height: 40}}>{detail.RH}</Text>
+          <Text style={{width: 50, height: 40}}>{detail.temp}</Text>
+          <Text style={{width: 100, height: 40}}>{detail.notes}</Text>
+        </View>
+      )
+    })
+
+    this.state = {
+      modalVisible: false,
+      formData: {}
     }
   }
 
@@ -53,9 +67,44 @@ class JobTable extends Component {
     Orientation.lockToLandscape();
   }
   componentWillUnmount() {
-    Orientation.unlockAllOrientations();
+    Orientation.unlockAllOrientations(); 
+  }
+
+
+  handleFormChange(formData){
+    this.setState({formData:formData})
+    this.props.onFormChange && this.props.onFormChange(formData);
+  }
+  handleFormFocus(e, component){
+    //console.log(e, component);
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
+  saveSample(params){
+    realm.write(() => {
+      realm.create('JobTable', {
+        table_id: this.props.navigation.state.params.job_id,
+        sample_id: this.state.formData.sample_id,
+        location: this.state.formData.location,
+        test_type: this.state.formData.test_type,
+        volume: this.state.formData.volume,
+        area: this.state.formData.area,
+        TAT: this.state.formData.TAT,
+        RH: this.state.formData.RH,
+        temp: this.state.formData.temp,
+        notes: this.state.formData.notes
+      })
+    });
+
+    this.setState({formData: {}})
+    this.setModalVisible(!this.state.modalVisible)
+    this.forceUpdate();
     
   }
+
   
   render() {
     const job = {
@@ -93,11 +142,95 @@ class JobTable extends Component {
           </View>
         </View>
         <ScrollView>
-          <Table style={styles.table} borderStyle={{borderWidth: 0.5, borderColor: '#c8e1ff'}}>
-            <Row data={this.jobHeader} style={styles.head} textStyle={styles.text} flexArr={[4, 4, 4, 4, 2, 2, 2, 2, 6]}/>
-            <Cols data={this.jobDetails} textStyle={styles.text} heightArr={[20, 50]} flexArr={[4, 4, 4, 4, 2, 2, 2, 2, 6]}/>
-          </Table>
+          <View style={{flexDirection: 'row', paddingTop: 20, paddingLeft:20, borderBottomColor: '#d3d3d3', borderBottomWidth: 1}}>
+            <Text style={{width: 75, height: 20, backgroundColor: '#d3d3d3'}}>{jobHeader.sample_id}</Text>
+            <Text style={{width: 100, height: 20, backgroundColor: '#d3d3d3'}}>{jobHeader.location}</Text>
+            <Text style={{width: 75, height: 20, backgroundColor: '#d3d3d3'}}>{jobHeader.test_type}</Text>
+            <Text style={{width: 50, height: 20, backgroundColor: '#d3d3d3'}}>{jobHeader.volume}</Text>
+            <Text style={{width: 50, height: 20, backgroundColor: '#d3d3d3'}}>{jobHeader.area}</Text>
+            <Text style={{width: 50, height: 20, backgroundColor: '#d3d3d3'}}>{jobHeader.TAT}</Text>
+            <Text style={{width: 50, height: 20, backgroundColor: '#d3d3d3'}}>{jobHeader.RH}</Text>
+            <Text style={{width: 50, height: 20, backgroundColor: '#d3d3d3'}}>{jobHeader.temp}</Text>
+            <Text style={{width: 100, height: 20, backgroundColor: '#d3d3d3'}}>{jobHeader.notes}</Text>
+          </View>
+          <View>
+            {this.jobDetailsList}
+          </View>
+          <Button
+            raised
+            icon={{name: 'add'}}
+            title='Add a Sample' 
+            onPress={() => {
+              this.setModalVisible(!this.state.modalVisible)
+            }} />
         </ScrollView>
+        <Modal
+        animationType="slide"
+        transparent={false}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {this.setModalVisible(!this.state.modalVisible)}}
+        >
+        <View style={{marginTop: 22}}>
+          <ScrollView>
+            <Form
+              ref='jobDetail'
+              onFocus={this.handleFormFocus.bind(this)}
+              onChange={this.handleFormChange.bind(this)}
+              label="Sample Values">
+              <InputField 
+                  ref='sample_id' 
+                  label='Sample Id' 
+                  placeholder='Sample ID'/>
+              
+              <InputField 
+                  ref='location' 
+                  label='Location'
+                  placeholder='Location'/>
+          
+              <InputField 
+                  ref='test_type' 
+                  label='Test Type'
+                  placeholder='Test Type'/>
+              
+              <InputField 
+                  ref='volume' 
+                  label='Volume'
+                  placeholder='Volume'/>
+              
+              <InputField 
+                  ref='area' 
+                  label='Area' 
+                  placeholder='Area'/>
+              
+              <InputField 
+                  ref='TAT' 
+                  label='TAT'
+                  placeholder='TAT'/>
+
+              <InputField 
+                  ref='RH' 
+                  label='RH'
+                  placeholder='RH'/>
+              
+              <InputField 
+                  ref='temp' 
+                  label='Temp'
+                  placeholder='Temp'/>
+              
+              <InputField 
+                  ref='notes' 
+                  label='Notes'
+                  placeholder='Notes'/>
+
+              </Form>
+            </ScrollView>
+            <Button
+              raised
+              icon={{name: 'save'}}
+              title='Save Job' 
+              onPress={() => { this.saveJob()} } />
+          </View>
+        </Modal>  
       </View>
     )
   }

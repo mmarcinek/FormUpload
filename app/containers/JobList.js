@@ -46,7 +46,7 @@ class JobList extends Component {
     
     this.jobList = this.jobResults.map((job) => {
       return(
-        <View onPress={this.jobSelect} key={job.job_id} style={{flexDirection: 'row', paddingTop: 20, paddingLeft:20, borderBottomColor: '#d3d3d3', borderBottomWidth: 1}}>
+        <View onPress={() => this.jobSelect(job)} key={job.job_id} style={{flexDirection: 'row', paddingTop: 20, paddingLeft:20, borderBottomColor: '#d3d3d3', borderBottomWidth: 1}}>
           <TouchableHighlight style={{width: 75, height: 40}} onPress={() => { this.jobSelect(job) }}>
             <Text>Select</Text>
           </TouchableHighlight>
