@@ -22,7 +22,6 @@ Job.schema = {
 class JobTable extends Realm.Object {}
   JobTable.schema = {
     name: 'JobTable',
-    primaryKey: 'table_id',
     properties: {
       prop: {type: 'linkingObjects', objectType: 'Job', property: 'tables'},
       table_id: { type: 'string'},

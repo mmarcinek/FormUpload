@@ -4,6 +4,8 @@ import ReactNative from 'react-native';
 import { ActionCreators } from '../actions';
 import realm from '../store/realm';
 import { Button } from 'react-native-elements';
+import Orientation from 'react-native-orientation';
+
 
 const {
   ScrollView,
@@ -59,6 +61,11 @@ class JobList extends Component {
       formData: {}
     }
   }
+  componentDidMount() {
+    Orientation.lockToPortrait();
+    
+    // Orientation.addOrientationListener(this._orientationDidChange);
+  }
 
   handleFormChange(formData){
     this.setState({formData:formData})
@@ -73,7 +80,6 @@ class JobList extends Component {
   }
 
   jobSelect(job){
-    console.log(job)
     this.props.navigation.navigate('JobTable', job)
   }
 
@@ -100,21 +106,24 @@ class JobList extends Component {
 
   render(){ 
     return (
-      <View>
-        <Text style={{textAlign: 'center', fontSize: 15, padding: 15}}>Jobs</Text>
+      <View style={styles.container}>
+        <ScrollView>
         <View style={{flexDirection: 'row', paddingLeft: 20, borderBottomColor: '#d3d3d3', borderBottomWidth: 1}}>
           <Text style={{width: 75, height: 40}}></Text>
-          <Text style={{width: 150, height: 40}}>JOB ID</Text>
+          <Text style={{width: 150, height: 40}}>Job ID</Text>
           <Text style={{width: 150, height: 40}}>Company</Text>
         </View> 
         <View>
           {this.jobList}
         </View>
-        <TouchableHighlight onPress={() => {
-          this.setModalVisible(!this.state.modalVisible)
-        }} style={{marginTop:20, marginLeft: 20, height: 30}}>
-          <Text>Add a Job</Text>
-        </TouchableHighlight>
+        <Button
+            raised
+            icon={{name: 'add'}}
+            title='Add a Job' 
+            onPress={() => {
+              this.setModalVisible(!this.state.modalVisible)
+            }} />
+        </ScrollView>
         <Modal
         animationType="slide"
         transparent={false}
@@ -165,12 +174,12 @@ class JobList extends Component {
           </Form>
           <Button
             raised
-            icon={{name: 'cached'}}
+            icon={{name: 'save'}}
             title='Save Job' 
             onPress={() => { this.saveJob()} } />
         </View>
       </Modal>  
-      </View>
+      </View>      
     )
   }  
 }
@@ -185,5 +194,14 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
   // ...ActionCreators
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+  }
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(JobList);

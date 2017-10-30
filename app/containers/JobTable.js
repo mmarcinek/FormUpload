@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactNative from 'react-native';
+import realm from '../store/realm';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
+import Orientation from 'react-native-orientation';
 
 
 const {
@@ -19,9 +21,42 @@ let mock = require('../../mock.json');
 
 const tableHead = Object.keys(mock.table[0]);
 const tableData = [];
-const project = mock.project;
 
 class JobTable extends Component {
+  constructor(props){
+    super(props)
+
+    let data = Array.from(realm.objects('JobTable'))
+    this.jobHeader = Object.keys(data[0])
+    this.jobDetails = [];
+
+    if (this.jobDetails.length == 1) {
+      realm.write(() => {
+        realm.create('JobTable', {
+          table_id: this.props.navigation.state.params.job_id,
+          sample_id: 'BD1234435',
+          location: 'Bathroom',
+          test_type: 'Test',
+          volume: 15,
+          area: 15,
+          TAT: '?',
+          RH: 77.5,
+          temp: 22.3,
+          notes: 'Some Notes'
+        })
+      })
+    }
+  }
+
+  componentDidMount() {
+    // this locks the view to Landscape
+    Orientation.lockToLandscape();
+  }
+  componentWillUnmount() {
+    Orientation.unlockAllOrientations();
+    
+  }
+  
   render() {
     const job = {
       job_id: this.props.navigation.state.params.job_id,
@@ -31,8 +66,8 @@ class JobTable extends Component {
       city: this.props.navigation.state.params.city,
       state: this.props.navigation.state.params.state,
       zipcode: this.props.navigation.state.params.zipcode
-    }
-    
+    } 
+
     return (
       <View style={styles.container}>
         <View style={styles.flexContainer}>
@@ -57,12 +92,12 @@ class JobTable extends Component {
             <Text>Collected By: {mock.collected_by}</Text>
           </View>
         </View>
-        <View>
+        <ScrollView>
           <Table style={styles.table} borderStyle={{borderWidth: 0.5, borderColor: '#c8e1ff'}}>
-            <Row data={tableHead} style={styles.head} textStyle={styles.text} flexArr={[4, 4, 4, 4, 2, 2, 2, 2, 6]}/>
-            <Cols data={tableData} textStyle={styles.text} heightArr={[20, 50]} flexArr={[4, 4, 4, 4, 2, 2, 2, 2, 6]}/>
+            <Row data={this.jobHeader} style={styles.head} textStyle={styles.text} flexArr={[4, 4, 4, 4, 2, 2, 2, 2, 6]}/>
+            <Cols data={this.jobDetails} textStyle={styles.text} heightArr={[20, 50]} flexArr={[4, 4, 4, 4, 2, 2, 2, 2, 6]}/>
           </Table>
-        </View>
+        </ScrollView>
       </View>
     )
   }
